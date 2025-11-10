@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>출입 로그</title>
+<style>
+body { font-family: sans-serif; background: #fafafa; padding: 20px; }
+h1 { color: #333; }
+ul { list-style: none; padding: 0; }
+li { background: white; margin: 5px 0; padding: 10px; border-radius: 8px; }
+.empty { color: #888; font-style: italic; text-align: center; }
+</style>
+</head>
+<body>
+<h1>출입 로그 기록</h1>
+<ul>
+{% if logs %}
+    {% for method, success, created_at in logs %}
+        <li>[{{ created_at }}] {{ method }} 인증 {{ '성공' if success else '실패' }}</li>
+    {% endfor %}
+{% else %}
+    <li class="empty">(아직 기록이 없습니다.)</li>
+{% endif %}
+</ul>
+</body>
+</html>
