@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>출입 로그</title>
-<style>
-body { font-family: sans-serif; background: #fafafa; padding: 20px; }
-h1 { color: #333; }
-ul { list-style: none; padding: 0; }
-li { background: white; margin: 5px 0; padding: 10px; border-radius: 8px; }
-.empty { color: #888; font-style: italic; text-align: center; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>출입 로그 - IoT시스템응용 8조</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
 </head>
 <body>
-<h1>출입 로그 기록</h1>
-<ul>
-{% if logs %}
-    {% for method, success, created_at in logs %}
-        <li>[{{ created_at }}] {{ method }} 인증 {{ '성공' if success else '실패' }}</li>
-    {% endfor %}
-{% else %}
-    <li class="empty">(아직 기록이 없습니다.)</li>
-{% endif %}
-</ul>
+    <header class="top-header">
+        <a href="/" class="logo">IoT시스템응용 8조</a>
+    </header>
+    
+    <div class="container">
+        <h1>출입 로그 기록</h1>
+        
+        {% if logs %}
+            {% for method, success, created_at in logs %}
+                <div class="log-item {% if success %}success{% else %}fail{% endif %}">
+                    <span class="time">{{ created_at }}</span>
+                    <span class="method">{{ method }}</span>
+                    <span class="status">{{ '성공' if success else '실패' }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty">아직 기록이 없습니다.</p>
+        {% endif %}
+    </div>
 </body>
 </html>
