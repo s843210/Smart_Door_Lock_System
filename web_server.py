@@ -2,8 +2,8 @@ from flask import Flask, render_template
 import sqlite3
 
 app = Flask(__name__)
-# DB_FILE = "/home/naye/iot_응용2025/logs.db"
-DB_FILE = "D:\\Visual Studio Code\\home\\naye\\iot_응용2025\\logs.db"
+DB_FILE = "/home/naye/iot_응용2025/logs.db"
+
 
 @app.route("/")
 def index():
