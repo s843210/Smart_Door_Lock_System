@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: white;
+}
+
+.top-header {
+  background: white;
+  padding: 40px 20px 20px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  border-bottom: none;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.camera-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.camera-stream {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.capture-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.capture-btn:hover {
+  background: #0056b3;
+}
+
+.status-message {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  min-height: 20px;
+}
+
+.camera-view {
+  width: 100%;
+  min-height: 400px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-camera {
+  color: #666;
+  font-size: 1.1rem;
+}

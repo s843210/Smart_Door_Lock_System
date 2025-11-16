@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IoT시스템응용 8조</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- <link rel="stylesheet" href="../static/index.css"> -->
 </head>
 <body>
     <header class="top-header">
@@ -13,8 +13,20 @@
     </header>
     
     <div class="container">
-        <p class="rfid-label">RFID</p>
-        <a href="/logs" class="btn">접속 기록</a>
+        <div class="section">
+            <p class="section-label">접속 기록</p>
+            <a href="/logs" class="btn">확인</a>
+        </div>
+        
+        <div class="section">
+            <p class="section-label">사진</p>
+            <a href="/photos" class="btn">확인</a>
+        </div>
+        
+        <div class="section">
+            <p class="section-label">카메라</p>
+            <a href="/camera" class="btn">확인</a>
+        </div>
     </div>
 </body>
 </html>
