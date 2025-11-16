@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사진 - IoT시스템응용 8조</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/photos.css') }}">
+    <!--<link rel="stylesheet" href="../static/photos.css">-->
+</head>
+<body>
+    <header class="top-header">
+        <a href="/" class="logo">IoT시스템응용 8조</a>
+    </header>
+
+    <div class="container">
+        <h1 class="title">저장된 사진</h1>
+        
+        <!-- 왼쪽 썸네일 그리드와 오른쪽 큰 이미지로 분할 -->
+        <div class="content-wrapper">
+            <div class="thumbnails">
+                {% for photo in photos %}
+                <img src="{{ photo.path }}" 
+                     alt="사진 {{ loop.index }}" 
+                     class="thumbnail"
+                     data-time="{{ photo.created_at }}"
+                     onclick="showLargeImage(this)">
+                {% else %}
+                <p class="no-photos">등록된 사진이 없습니다.</p>
+                {% endfor %}
+            </div>
+            
+            <div class="large-image-container">
+                <img id="largeImage" src="/placeholder.svg" alt="선택된 사진">
+                <p id="imageTime" class="image-time"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLargeImage(thumbnail) {
+            const largeImage = document.getElementById('largeImage');
+            const imageTime = document.getElementById('imageTime');
+            
+            largeImage.src = thumbnail.src;
+            imageTime.textContent = thumbnail.dataset.time;
+        }
+        
+        // 첫 번째 사진을 자동으로 표시
+        window.onload = function() {
+            const firstThumbnail = document.querySelector('.thumbnail');
+            if (firstThumbnail) {
+                showLargeImage(firstThumbnail);
+            }
+        };
+    </script>
+</body>
+</html>

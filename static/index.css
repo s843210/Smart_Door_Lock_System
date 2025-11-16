@@ -29,14 +29,18 @@
   padding: 40px 20px;
 }
 
-/* RFID 라벨 추가 */
-.rfid-label {
+/* 3개의 섹션을 세로로 배치 */
+.section {
+  margin-bottom: 40px;
+}
+
+/* rfid-label을 section-label로 변경 */
+.section-label {
   font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
   font-weight: bold;
 }
-
 
 /* 버튼 */
 .btn {

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카메라 - IoT시스템응용 8조</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/camera.css') }}">
+    <!-- <link rel="stylesheet" href="../static/camera.css"> -->
+</head>
+<body>
+    <header class="top-header">
+        <a href="/" class="logo">IoT시스템응용 8조</a>
+    </header>
+
+    <div class="container">
+        <h1 class="title">실시간 카메라</h1>
+        
+        <!-- 실시간 카메라 스트림과 캡처 버튼 추가 -->
+        <div class="camera-container">
+            <img src="{{ url_for('video_feed') }}" alt="실시간 카메라" class="camera-stream">
+        </div>
+        
+        <div class="controls">
+            <button onclick="capturePhoto()" class="capture-btn">사진 찍기</button>
+            <p id="capture-status" class="status-message"></p>
+        </div>
+    </div>
+
+    <script>
+        function capturePhoto() {
+            const statusEl = document.getElementById('capture-status');
+            statusEl.textContent = '사진 저장 중...';
+            statusEl.style.color = '#666';
+            
+            fetch('/capture', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        statusEl.textContent = '사진이 저장되었습니다!';
+                        statusEl.style.color = '#4CAF50';
+                        setTimeout(() => {
+                            statusEl.textContent = '';
+                        }, 3000);
+                    } else {
+                        statusEl.textContent = '사진 저장 실패';
+                        statusEl.style.color = '#f44336';
+                    }
+                })
+                .catch(error => {
+                    statusEl.textContent = '오류 발생';
+                    statusEl.style.color = '#f44336';
+                });
+        }
+    </script>
+</body>
+</html>
