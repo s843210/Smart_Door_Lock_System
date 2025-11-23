@@ -1,56 +1,180 @@
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg-color: #f3f4f6;
+  --card-bg: #ffffff;
+  --text-main: #111827;
+  --text-secondary: #6b7280;
+  --sidebar-width: 250px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --radius: 0.75rem;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-
-/* 상단 헤더 */
-.top-header {
-  background: white;
-  padding: 40px 20px 20px 20px;
-  max-width: 900px;
-  margin: 0 auto;
-  border-bottom: none;
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  display: flex;
+  min-height: 100vh;
 }
 
-/* 로고 색상을 검은색으로 변경하고 크기 증가 */
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--card-bg);
+  border-right: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100%;
+}
+
 .logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #000;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
   text-decoration: none;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-/* 중앙 정렬을 왼쪽 정렬로 변경하고 위치 조정 */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 20px;
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-/* 3개의 섹션을 세로로 배치 */
-.section {
-  margin-bottom: 40px;
-}
-
-/* rfid-label을 section-label로 변경 */
-.section-label {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-/* 버튼 */
-.btn {
-  display: inline-block;
-  padding: 15px 40px;
-  background: #667eea;
-  color: white;
+.nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
   text-decoration: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-item a:hover,
+.nav-item a.active {
+  background-color: #eef2ff;
+  color: var(--primary-color);
+}
+
+.nav-item a i {
+  font-size: 1.25rem;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.header p {
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid transparent;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #eef2ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-desc {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  flex-grow: 1;
+}
+
+.card-arrow {
+  align-self: flex-end;
+  color: var(--primary-color);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 100;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
 }

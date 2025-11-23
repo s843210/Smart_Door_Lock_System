@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IoT 시스템{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="/" class="logo">
+            <span class="material-icons-round">grid_view</span>
+            IoT System
+        </a>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="/" class="{{ 'active' if request.path == '/' else '' }}">
+                    <span class="material-icons-round">dashboard</span>
+                    대시보드
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/logs" class="{{ 'active' if request.path == '/logs' else '' }}">
+                    <span class="material-icons-round">history</span>
+                    접속 기록
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/photos" class="{{ 'active' if request.path == '/photos' else '' }}">
+                    <span class="material-icons-round">photo_library</span>
+                    사진 갤러리
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/camera" class="{{ 'active' if request.path == '/camera' else '' }}">
+                    <span class="material-icons-round">videocam</span>
+                    실시간 카메라
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

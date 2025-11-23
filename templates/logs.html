@@ -1,31 +1,72 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>출입 로그 - IoT시스템응용 8조</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!--<link rel="stylesheet" href="../static/style.css">-->
-</head>
-<body>
-    <header class="top-header">
-        <a href="/" class="logo">IoT시스템응용 8조</a>
-    </header>
-    
-    <div class="container">
-        <h1>출입 로그 기록</h1>
-        
-        {% if logs %}
-            {% for method, success, created_at in logs %}
-                <div class="log-item {% if success %}success{% else %}fail{% endif %}">
-                    <span class="time">{{ created_at }}</span>
-                    <span class="method">{{ method }}</span>
-                    <span class="status">{{ '성공' if success else '실패' }}</span>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p class="empty">아직 기록이 없습니다.</p>
-        {% endif %}
+{% extends "layout.html" %}
+
+{% block title %}출입 로그 - IoT시스템응용 8조{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>출입 로그 기록</h1>
+    <p>최근 시스템 접근 이력입니다.</p>
+</div>
+
+<div class="card">
+    {% if logs %}
+    <div class="log-list">
+        {% for method, success, created_at in logs %}
+        <div class="log-item {% if success %}success{% else %}fail{% endif %}">
+            <span class="time">{{ created_at }}</span>
+            <span class="method">{{ method }}</span>
+            <span class="status">{{ '성공' if success else '실패' }}</span>
+        </div>
+        {% endfor %}
     </div>
-</body>
-</html>
+    {% else %}
+    <p class="empty">아직 기록이 없습니다.</p>
+    {% endif %}
+</div>
+
+<style>
+    .log-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .log-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        background: #f9fafb;
+        border-radius: 0.5rem;
+        border-left: 4px solid #ccc;
+    }
+
+    .log-item.success {
+        border-left-color: #10b981;
+    }
+
+    .log-item.fail {
+        border-left-color: #ef4444;
+    }
+
+    .time {
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+
+    .method {
+        font-weight: 600;
+    }
+
+    .status {
+        font-weight: bold;
+    }
+
+    .log-item.success .status {
+        color: #10b981;
+    }
+
+    .log-item.fail .status {
+        color: #ef4444;
+    }
+</style>
+{% endblock %}

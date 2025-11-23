@@ -3,7 +3,8 @@ import sqlite3
 
 app = Flask(__name__)
 # DB_FILE = "/home/naye/iot_응용2025/logs.db"
-DB_FILE = "D:\\Visual Studio Code\\home\\naye\\iot_응용2025\\logs.db"
+import os
+DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs.db")
 
 @app.route("/")
 def index():
