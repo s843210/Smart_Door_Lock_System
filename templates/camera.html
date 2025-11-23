@@ -1,56 +1,113 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>카메라 - IoT시스템응용 8조</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/camera.css') }}">
-    <!-- <link rel="stylesheet" href="../static/camera.css"> -->
-</head>
-<body>
-    <header class="top-header">
-        <a href="/" class="logo">IoT시스템응용 8조</a>
-    </header>
+{% extends "layout.html" %}
 
-    <div class="container">
-        <h1 class="title">실시간 카메라</h1>
-        
-        <!-- 실시간 카메라 스트림과 캡처 버튼 추가 -->
-        <div class="camera-container">
-            <img src="{{ url_for('video_feed') }}" alt="실시간 카메라" class="camera-stream">
-        </div>
-        
-        <div class="controls">
-            <button onclick="capturePhoto()" class="capture-btn">사진 찍기</button>
-            <p id="capture-status" class="status-message"></p>
-        </div>
+{% block title %}카메라 - IoT시스템응용 8조{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>실시간 카메라</h1>
+    <p>CCTV 화면을 실시간으로 모니터링하고 캡처합니다.</p>
+</div>
+
+<div class="card camera-card">
+    <!-- 실시간 카메라 스트림 -->
+    <div class="camera-container">
+        <img src="{{ url_for('video_feed') }}" alt="실시간 카메라" class="camera-stream">
     </div>
 
-    <script>
-        function capturePhoto() {
-            const statusEl = document.getElementById('capture-status');
-            statusEl.textContent = '사진 저장 중...';
-            statusEl.style.color = '#666';
-            
-            fetch('/capture', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        statusEl.textContent = '사진이 저장되었습니다!';
-                        statusEl.style.color = '#4CAF50';
-                        setTimeout(() => {
-                            statusEl.textContent = '';
-                        }, 3000);
-                    } else {
-                        statusEl.textContent = '사진 저장 실패';
-                        statusEl.style.color = '#f44336';
-                    }
-                })
-                .catch(error => {
-                    statusEl.textContent = '오류 발생';
-                    statusEl.style.color = '#f44336';
-                });
-        }
-    </script>
-</body>
-</html>
+    <div class="controls">
+        <button onclick="capturePhoto()" class="capture-btn">
+            <span class="material-icons-round">camera_alt</span>
+            사진 찍기
+        </button>
+        <p id="capture-status" class="status-message"></p>
+    </div>
+</div>
+
+<style>
+    .camera-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        height: auto;
+    }
+
+    .camera-container {
+        width: 100%;
+        max-width: 640px;
+        aspect-ratio: 4/3;
+        background-color: #000;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .camera-stream {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .capture-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .capture-btn:hover {
+        background-color: var(--primary-hover);
+    }
+
+    .status-message {
+        font-size: 0.875rem;
+        height: 1.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function capturePhoto() {
+        const statusEl = document.getElementById('capture-status');
+        statusEl.textContent = '사진 저장 중...';
+        statusEl.style.color = '#6b7280';
+
+        fetch('/capture', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusEl.textContent = '사진이 저장되었습니다!';
+                    statusEl.style.color = '#10b981';
+                    setTimeout(() => {
+                        statusEl.textContent = '';
+                    }, 3000);
+                } else {
+                    statusEl.textContent = '사진 저장 실패';
+                    statusEl.style.color = '#ef4444';
+                }
+            })
+            .catch(error => {
+                statusEl.textContent = '오류 발생';
+                statusEl.style.color = '#ef4444';
+            });
+    }
+</script>
+{% endblock %}
