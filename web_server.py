@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response
 import sqlite3
 import os
+import datetime
 import cv2  # 카메라 모듈 추가
 
 app = Flask(__name__)
@@ -68,7 +69,7 @@ def logs():
 @app.route("/photos")
 def photos():
     """저장된 사진 목록을 보여주는 페이지"""
-    photo_files = []
+    photos_data = []
     # 사진 폴더가 없으면 생성
     if not os.path.exists(PHOTO_DIR):
         try:
@@ -84,7 +85,16 @@ def photos():
     except Exception as e:
         print(f"Photo Error: {e}")
 
-    return render_template("photos.html", photos=photo_files)
+    # 파일 정보 구성
+    for f in photo_files:
+        full_path = os.path.join(PHOTO_DIR, f)
+        created_at = datetime.datetime.fromtimestamp(os.path.getmtime(full_path))
+        photos_data.append({
+            "path": f"/static/photos/{f}",
+            "created_at": created_at.strftime("%Y-%m-%d %H:%M:%S")
+        })
+
+    return render_template("photos.html", photos=photos_data)
 
 @app.route("/camera")
 def camera():
@@ -96,6 +106,15 @@ def camera():
 def video_feed():
     """HTML <img> 태그의 src에 들어갈 스트리밍 주소"""
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route("/capture", methods=["POST"])
+def capture():
+    filename = datetime.datetime.now().strftime("%Y%m%d_%H%M%S.jpg")
+    save_path = os.path.join(PHOTO_DIR, filename)
+
+    os.system(f"libcamera-still -n -o {save_path} --immediate --width 640 --height 480")
+
+    return {"success": True, "path": save_path}
 
 
 if __name__ == "__main__":

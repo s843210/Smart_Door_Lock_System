@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import sqlite3
+import requests
 from mfrc522 import SimpleMFRC522
 
 # --- 설정 ---
@@ -25,8 +26,11 @@ KEYPAD = [
 
 CORRECT_PASSWORD = "135A"
 current_input = ""
+fail_count = 0
+MAX_FAIL = 3
 
 DB_FILE = "/home/naye/iot_응용2025/logs.db"
+WEB_CAPTURE_URL = "http://127.0.0.1:8080/capture"
 
 # --- 하드웨어 초기화 ---
 reader = SimpleMFRC522()
@@ -70,6 +74,11 @@ def open_and_close_door():
     current_input = ""
     print("\n--- 다시 대기 상태 ---")
 
+def take_photo():
+    """웹서버에 사진 촬영 요청"""
+    requests.post(WEB_CAPTURE_URL, timeout=3)
+
+
 # --- 메인 루프 ---
 try:
     print("--- 통합 도어락 시스템 시작 ---")
@@ -87,6 +96,9 @@ try:
             else:
                 print(f"[RFID] 비인가 ID: {id}")
                 log_event("RFID", False)
+                # RFID 실패 → 즉시 사진 촬영
+                take_photo()
+
             time.sleep(1)
 
         # 키패드 체크
@@ -115,6 +127,15 @@ try:
                 else:
                     print("[키패드] 비밀번호 불일치!")
                     log_event("KEYPAD", False)
+
+                    fail_count += 1
+                    # print(f"실패 횟수: {fail_count}")
+
+                    # 3회 실패 → 사진 촬영
+                    if fail_count >= MAX_FAIL:
+                        take_photo()
+                        fail_count = 0
+
                 current_input = ""
             else:
                 current_input += key_pressed
